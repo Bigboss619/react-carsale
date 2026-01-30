@@ -1,0 +1,38 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+
+.card {
+  padding: 2em;
+}
+
+.read-the-docs {
+  color: #888;
+}
+
+/* Mission and vision Section */
+#mission-vision-sect .mission-card:hover, 
+#mission-vision-sect .vision-card:hover {
+    opacity: 1 !important;
+} 
+
+@keyframes bounceIn {
+    0% { opacity: 0; transform: scale(0.8) translateY(50px); }
+    50% { opacity: 0.5; transform: scale(1.05) translateY(-10px); }
+    100% { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.animate-bounceIn {
+    animation: bounceIn 1.5s ease-in-out;
+    opacity: 1 !important; /* Ensure text is visible */
+}
+
+/* Ensure smooth transition for hover effects */
+.vision-card,
+.mission-card {
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
