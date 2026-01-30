@@ -98,11 +98,6 @@ const navItems = [
                             </>
                     ) : (
                         <>
-                            {/* Authenticated User */}
-                            <span className="text-gray-700 font-bold">
-                                Welcome, {userProfile.email}
-                            </span>
-
                             {/* Role-based dashboard link */}
                             {role === "agent" && (
                                 <Link to="/pricing" className="ml-4 px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition-colors duration-200 font-bold">
@@ -116,7 +111,7 @@ const navItems = [
                             )}
                             <button
                                 onClick={handleSignOut}
-                                className="ml-4 px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 transition-colors duration-200 font-bold">
+                                className="ml-4 px-4 py-2 bg-red-600 text-white hover:cursor-pointer rounded hover:bg-red-700 transition-colors duration-200 font-bold">
                                 Sign Out
                             </button>
                         </>

@@ -14,23 +14,27 @@ export const AuthContextProvider = ({ children }) => {
 
     // Load session from localStorage on refresh
         useEffect(() => {
-            const storedSession = localStorage.getItem("session");
-
-            if (storedSession) {
-                const parsed = JSON.parse(storedSession);
+            const initAuth = async () => {
+                const storedSession = localStorage.getItem("session");
                 
-                if(parsed?.user){
-                    // Fetch user profile if session exists
-                    setSession(parsed.session);
-                    setUser(parsed.user);
-                    fetchUserProfile(parsed.user.id);
+                if (storedSession) {
+                    const parsed = JSON.parse(storedSession);
+                    
+                    if(parsed?.user){
+                        // Fetch user profile if session exists
+                        setSession(parsed.session);
+                        setUser(parsed.user);
+                        await fetchUserProfile(parsed.user.id);
+                    }
                 }
-            }
-            setLoading(false);
+                setLoading(false);
+            };
+            initAuth();
         }, []);
 
     // LOGIN
         const login = async (email, password) => {
+            setLoading(true);
             try {
                 const res = await fetch(`${API_BASE}/api/customers/login`, {
                     method: "POST",
@@ -57,10 +61,12 @@ export const AuthContextProvider = ({ children }) => {
                 await fetchUserProfile(data.user.id);
 
                 setSuccessMessage("Login successful!");
+                setLoading(false);
 
                 return { success: true };
             } catch (err) {
                 console.error("Login error:", err);
+                setLoading(false);
                 return { success: false, error: "An error occurred during login." };
             }
         };
@@ -72,7 +78,7 @@ export const AuthContextProvider = ({ children }) => {
 
             // Check agent first
             let res = await fetch(
-                `${API_BASE}/api/agents/profile/${userId}`
+                `${API_BASE}/api/agent/profile/${userId}`
             );
             let data = await res.json();
 
