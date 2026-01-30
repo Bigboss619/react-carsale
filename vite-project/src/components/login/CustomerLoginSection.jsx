@@ -32,16 +32,16 @@ function CustomerLoginSection() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    
+    if(email.trim() === ""){
+            showError("Email cannot be empty");
+            return;
+    }
+    if(password.trim() === ""){
+            showError("Password cannot be empty");
+            return;
+    }
     setLoading(true);
-
-    // if(email.trim() === ""){
-    //         showError("Email cannot be empty");
-    //         return;
-    // }
-    // if(password.trim() === ""){
-    //         showError("Password cannot be empty");
-    //         return;
-    // }
     try {
       const result = await login(email, password);
 

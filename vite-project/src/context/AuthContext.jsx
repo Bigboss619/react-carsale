@@ -34,7 +34,7 @@ export const AuthContextProvider = ({ children }) => {
 
     // LOGIN
         const login = async (email, password) => {
-            setLoading(true);
+            // setLoading(true);
             try {
                 const res = await fetch(`${API_BASE}/api/customers/login`, {
                     method: "POST",
@@ -61,12 +61,12 @@ export const AuthContextProvider = ({ children }) => {
                 await fetchUserProfile(data.user.id);
 
                 setSuccessMessage("Login successful!");
-                setLoading(false);
+                // setLoading(false);
 
                 return { success: true };
             } catch (err) {
                 console.error("Login error:", err);
-                setLoading(false);
+                // setLoading(false);
                 return { success: false, error: "An error occurred during login." };
             }
         };

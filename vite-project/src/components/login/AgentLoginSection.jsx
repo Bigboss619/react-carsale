@@ -5,7 +5,7 @@ import { UserAuth } from "../../context/AuthContext";
 function AgentLoginSection() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [loading, setLoading] = useState(false);
+    // const [loading, setLoading] = useState(false);
     const [passwordType, setPasswordType] = useState('password');
     const [errorMessage, setErrorMessage] = useState('');
     const [showErrorPopup, setShowErrorPopup] = useState(false);
@@ -27,7 +27,15 @@ function AgentLoginSection() {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        setLoading(true);
+        if(email.trim() === ""){
+            showError("Email cannot be empty");
+            return;
+         }
+        if(password.trim() === ""){
+            showError("Password cannot be empty");
+            return;
+        }
+        // setLoading(true);
         try {
             const result = await login(email, password);
 
@@ -39,10 +47,9 @@ function AgentLoginSection() {
         } catch (error) {
             showError("An error occurred during login.");
         } finally {
-            setLoading(false);
+            // setLoading(false);
         }
     };
-
   return (
     <>
         <div className="flex justify-center p-3 items-center mt-10">
@@ -56,7 +63,7 @@ function AgentLoginSection() {
                         value={email}
                         onChange={(e) => setEmail(e.target.value)} className="w-full p-2 border border-gray-300 rounded mt-1" placeholder="Enter your email" />
                     </div>
-        
+
                     <div className="mb-4 relative">
                         <label className="block text-gray-700">Password</label>
                         <input type={passwordType}
@@ -66,14 +73,14 @@ function AgentLoginSection() {
                             <i id="eye-icon" className={`fa ${passwordType === 'password' ? 'fa-eye-slash' : 'fa-eye'} text-gray-500`}></i>
                         </span>
                     </div>
-        
+
                     <div className="mb-4 flex justify-between items-center">
                         <label>
                             <input type="checkbox" className="mr-1" /> Remember Me
                         </label>
                         <a href="#" className="text-blue-500 hover:underline">Forgot Password?</a>
                     </div>
-        
+
                     <button type="submit" className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600">
                         Login
                     </button>
