@@ -12,6 +12,8 @@ export const AuthContextProvider = ({ children }) => {
     const [role, setRole] = useState(null); // "agent" or "customer"
     const API_BASE = import.meta.env.VITE_API_BASE;
 
+    console.log("API BASE:", API_BASE);
+
     // Load session from localStorage on refresh
         useEffect(() => {
             const initAuth = async () => {
