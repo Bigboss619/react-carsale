@@ -181,7 +181,7 @@ app.post("/api/agent/login", async (req, res) => {
       res.status(500).json({ error: "Internal server error"});
     }
   });
-
+  
 // ---- AGENT INFORMATION -----
 app.get("/api/agent/profile/:id", async (req, res) => {
     const { id } = req.params;
