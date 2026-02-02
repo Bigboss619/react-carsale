@@ -33,16 +33,17 @@ export const AuthContextProvider = ({ children }) => {
         }, []);
 
     // LOGIN
-        const login = async (email, password) => {
+        const login = async (email, password, role = 'customer') => {
             // setLoading(true);
+            const endpoint = role === 'agent' ? '/api/agent/login' : '/api/customers/login';
             try {
-                const res = await fetch(`${API_BASE}/api/customers/login`, {
+                const res = await fetch(`${API_BASE}${endpoint}`, {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ email, password }),
                 });
 
-                const data = await res.json();
+                const data = await res.json().catch(() => null);
 
                 if(!res.ok){
                     return { success: false, error: data.error || "Login failed" };
@@ -51,7 +52,7 @@ export const AuthContextProvider = ({ children }) => {
                 setSession(data.session);
                 setUser(data.user);
                 localStorage.setItem(
-                    "session", 
+                    "session",
                     JSON.stringify({
                         session: data.session,
                         user: data.user

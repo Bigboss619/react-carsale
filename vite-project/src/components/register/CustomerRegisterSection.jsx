@@ -17,7 +17,7 @@ function CustomerRegisterSection(){
     const [loading, setLoading] = useState('');
     const navigate = useNavigate();
 
-    const { session, signUpNewUser } = UserAuth();
+    const { session } = UserAuth();
     console.log(session);
 
     // console.log(email, password);
@@ -44,7 +44,7 @@ function CustomerRegisterSection(){
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        setLoading(true);
+        // setLoading(true);
 
         if(firstName.trim() === ""){
             showError("First Name cannot be empty");

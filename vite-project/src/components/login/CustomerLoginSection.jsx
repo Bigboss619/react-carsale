@@ -32,7 +32,7 @@ function CustomerLoginSection() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    
+
     if(email.trim() === ""){
             showError("Email cannot be empty");
             return;
@@ -44,6 +44,7 @@ function CustomerLoginSection() {
     setLoading(true);
     try {
       const result = await login(email, password);
+      console.log("Login result:", result);
 
       if (result.success) {
         navigate("/pricing");
@@ -51,6 +52,7 @@ function CustomerLoginSection() {
         showError(result.error || "Login failed. Try again.");
       }
     } catch (error) {
+      console.log("Login catch error:", error);
       showError('Login failed. Try again.');
     } finally {
       setLoading(false);

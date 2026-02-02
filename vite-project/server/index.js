@@ -65,8 +65,6 @@ app.post("/api/customers/login", async (req, res) => {
 
     const { email, password } = req.body;
 
-
-
     if(!email || !password){
       return res.status(400).json({error: "Email and password are required" });
     }
@@ -78,7 +76,10 @@ app.post("/api/customers/login", async (req, res) => {
         });
 
         if(error){
-          return res.status(401).json({ error: "Invalid email or password"});
+          return res.status(401).json({ 
+            success: false,
+            error: "Invalid email or password"
+          });
         }
         
         return res.json({
@@ -88,7 +89,10 @@ app.post("/api/customers/login", async (req, res) => {
         });
     } catch (err) {
         console.error(err);
-        res.status(500).json({ error: "Internal server error"});
+        res.status(500).json({ 
+          success: false,
+          error: "Internal server error"
+        });
   }
 });
 

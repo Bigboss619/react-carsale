@@ -37,7 +37,7 @@ function AgentLoginSection() {
         }
         // setLoading(true);
         try {
-            const result = await login(email, password);
+            const result = await login(email, password, 'agent');
 
             if (result.success) {
                 navigate("/pricing");
