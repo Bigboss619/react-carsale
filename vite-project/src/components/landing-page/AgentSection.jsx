@@ -2,22 +2,22 @@ import React from 'react'
 import { Link } from '@mui/material';
 const AgentDetails = [
   {
-    image: "public/Agents/agent1.jpg",
+    image: "Agents/agent1.jpg",
     name: "John Doe",
     detail: "Top Seller",
   },
   {
-    image: "public/Agents/agent2.jpg",
+    image: "Agents/agent2.jpg",
     name: "Jane Smith",
     detail: "Top Seller",
   },
   {
-    image: "public/Agents/agent3.jpg",
+    image: "Agents/agent3.jpg",
     name: "Michael Brown",
     detail: "Customer Favorite",
   },
   {
-    image: "public/Agents/agent4.jpg",
+    image: "Agents/agent4.jpg",
     name: "Emily Johnson",
     detail: "Sales Specialist"
   },
