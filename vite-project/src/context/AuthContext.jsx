@@ -22,11 +22,12 @@ export const AuthContextProvider = ({ children }) => {
                 if (storedSession) {
                     const parsed = JSON.parse(storedSession);
                     
-                    if(parsed?.user){
+                    if(parsed?.user && parsed?.role){
                         // Fetch user profile if session exists
                         setSession(parsed.session);
                         setUser(parsed.user);
-                        await fetchUserProfile(parsed.user.id);
+                        setRole(parsed.role);
+                        await fetchUserProfile(parsed.user.id, parsed.role);
                     }
                 }
                 setLoading(false);
@@ -37,7 +38,7 @@ export const AuthContextProvider = ({ children }) => {
     // LOGIN
         const login = async (email, password, role = 'customer') => {
             // setLoading(true);
-            const endpoint = role === 'agent' ? '/api/agent/login' : '/api/customers/login';
+            const endpoint = role === 'agent' ? '/api/agents/login' : '/api/customers/login';
             try {
                 const res = await fetch(`${API_BASE}${endpoint}`, {
                     method: "POST",
@@ -53,15 +54,17 @@ export const AuthContextProvider = ({ children }) => {
 
                 setSession(data.session);
                 setUser(data.user);
+                setRole(data.role);
                 localStorage.setItem(
                     "session",
                     JSON.stringify({
                         session: data.session,
-                        user: data.user
+                        user: data.user,
+                        role: data.role,
                         })
                 );
 
-                await fetchUserProfile(data.user.id);
+                await fetchUserProfile(data.user.id, data.role);
 
                 setSuccessMessage("Login successful!");
                 // setLoading(false);
@@ -76,41 +79,23 @@ export const AuthContextProvider = ({ children }) => {
 
 
     // Fetch user profile from user_register table
-    const fetchUserProfile = async (userId) => {
+    const fetchUserProfile = async (userId, role) => {
         try {
 
-            // Check agent first
-            let res = await fetch(
-                `${API_BASE}/api/agent/profile/${userId}`
-            );
-            let data = await res.json();
-
-            if(res.ok && data.profile){
-                setUserProfile(data.profile);
-                setRole("agent");
-                console.log("User profile set as agent:", data.profile);
-                return;
-            }
-
-            // Else check customer
-            res = await fetch(
-                `${API_BASE}/api/customers/profile/${userId}`
-            );
-            data = await res.json();
-
-            console.log("Fetched profile data:", data);
-            console.log("Fetching profile for userId:", userId);
-
-            if(res.ok && data.profile){
-                setUserProfile(data.profile);
-                setRole("customer");
-                console.log("User profile set as customer:", data.profile);
-                return;
-            }
-
-            setUserProfile(null);
-            setRole(null);
+            // Check if its an agent or a customer first
+            let endpoint = role === "agent" ? `/api/agents/profile/${userId}` : `/api/customers/profile/${userId}`;
             
+            let res = await fetch(`${API_BASE}${endpoint}`);
+            let data = await res.json().catch(() => null);
+
+            if(res.ok && data.profile)
+                {
+                    setUserProfile(data.profile);
+                    return;
+                }
+
+            
+            setUserProfile(null);
         } catch (err) {
             console.error("Fetch profile error:", err);
         }
